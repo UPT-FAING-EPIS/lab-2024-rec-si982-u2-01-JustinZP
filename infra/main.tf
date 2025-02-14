@@ -8,7 +8,7 @@ terraform {
   required_version = ">= 0.14.9"
 }
 
-variable "suscription_id" {
+variable "subscription_id" {
     type = string
     description = "Azure subscription id"
 }
@@ -25,7 +25,7 @@ variable "sqladmin_password" {
 
 provider "azurerm" {
   features {}
-  subscription_id = var.suscription_id
+  subscription_id = var.subscription_id
 }
 
 # Generate a random integer to create a globally unique name
@@ -56,7 +56,7 @@ resource "azurerm_linux_web_app" "webapp" {
   resource_group_name   = azurerm_resource_group.rg.name
   service_plan_id       = azurerm_service_plan.appserviceplan.id
   depends_on            = [azurerm_service_plan.appserviceplan]
-  //https_only            = true
+  
   site_config {
     minimum_tls_version = "1.2"
     always_on = false
@@ -83,8 +83,9 @@ resource "azurerm_mssql_firewall_rule" "sqlaccessrule" {
   end_ip_address   = "255.255.255.255"
 }
 
+
 resource "azurerm_mssql_database" "sqldb" {
   name      = "shorten"
   server_id = azurerm_mssql_server.sqlsrv.id
-  sku_name = "Free"
+  sku_name  = "Free"
 }

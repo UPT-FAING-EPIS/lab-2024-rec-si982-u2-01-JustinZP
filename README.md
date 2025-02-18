@@ -34,6 +34,8 @@
 ```Powershell
 md infra
 ```
+![image](https://github.com/user-attachments/assets/6f742ed7-2ec4-43b3-bfa8-9df7e6971d4b)
+
 2. Abrir Visual Studio Code, seguidamente abrir la carpeta del repositorio clonado del laboratorio, en el folder Infra, crear el archivo main.tf con el siguiente contenido
 ```Terraform
 terraform {
@@ -127,6 +129,7 @@ resource "azurerm_mssql_database" "sqldb" {
   sku_name = "Free"
 }
 ```
+![image](https://github.com/user-attachments/assets/fc02575e-43fe-4ef9-9f56-6e2e4f1e2728)
 
 3. Abrir un navegador de internet y dirigirse a su repositorio en Github, en la sección *Settings*, buscar la opción *Secrets and Variables* y seleccionar la opción *Actions*. Dentro de esta crear los siguientes secretos
 > AZURE_USERNAME: Correo o usuario de cuenta de Azure
@@ -134,6 +137,7 @@ resource "azurerm_mssql_database" "sqldb" {
 > SUSCRIPTION_ID: ID de la Suscripción de cuenta de Azure
 > SQL_USER: Usuario administrador de la base de datos, ejm: adminsql
 > SQL_PASS: Password del usuario administrador de la base de datos, ejm: upt.2025
+![image](https://github.com/user-attachments/assets/049c8a99-b730-4c87-b808-0ed11fae07c1)
 
 5. En el Visual Studio Code, crear la carpeta .github/workflows en la raiz del proyecto, seguidamente crear el archivo deploy.yml con el siguiente contenido
 <details><summary>Click to expand: deploy.yml</summary>
@@ -299,11 +303,14 @@ jobs:
             terraform apply -var="suscription_id=${{ secrets.SUSCRIPTION_ID }}" -var="sqladmin_username=${{ secrets.SQL_USER }}" -var="sqladmin_password=${{ secrets.SQL_PASS }}" -auto-approve main.tfplan
 ```
 </details>
+![image](https://github.com/user-attachments/assets/dc92c77b-218a-4c81-8d00-7d8036240cc6)
 
 6. En el Visual Studio Code, guardar los cambios y subir los cambios al repositorio. Revisar los logs de la ejeuciòn de automatizaciòn y anotar el numero de identificaciòn de Grupo de Recursos y Aplicación Web creados
 ```Bash
 azurerm_linux_web_app.webapp: Creation complete after 53s [id=/subscriptions/1f57de72-50fd-4271-8ab9-3fc129f02bc0/resourceGroups/upt-arg-XXX/providers/Microsoft.Web/sites/upt-awa-XXX]
 ```
+![image](https://github.com/user-attachments/assets/f94c0707-af14-46c9-9914-b7a31003d3c0)
+![image](https://github.com/user-attachments/assets/3e313e82-8b43-4eab-bb0b-295430bcc94f)
 
 ### CONSTRUCCION DE LA APLICACION
 
@@ -321,11 +328,16 @@ dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --version=8.
 dotnet add package Microsoft.AspNetCore.Components.QuickGrid --version=8.0.0
 dotnet add package Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter --version=8.0.0
 ```
+![image](https://github.com/user-attachments/assets/49395a0d-7e55-4e37-b70c-87c4903a92cb)
+![image](https://github.com/user-attachments/assets/861aab6f-66cb-4675-872b-2938ebdce0a6)
+Ya ejecute todos los comandos
+![image](https://github.com/user-attachments/assets/b7319901-1dcf-4a20-a76d-cf93ef17af23)
 
 2. En el terminal, ejecutar el siguiente comando para crear los modelos de autenticación de identidad dentro de la aplicación.
 ```Bash
 dotnet aspnet-codegenerator identity --useDefaultUI
 ```
+![image](https://github.com/user-attachments/assets/81926712-18e7-4356-97a2-f3ed4a75f9fa)
 
 3. En el VS Code, modificar la cadena de conexión de la base de datos en el archivo appsettings.json, de la siguiente manera:
 ```JSon
@@ -334,12 +346,14 @@ dotnet aspnet-codegenerator identity --useDefaultUI
 >Donde: XXX, id de su servidor de base de datos
 >       YYY, usuario administrador de base de datos
 >       ZZZ, password del usuario de base de datos
+![image](https://github.com/user-attachments/assets/b482185b-3f65-4def-b850-b0d5333303d6)
 
 4. En el terminal, ejecutar el siguiente comando para crear las tablas de base de datos de identidad.
 ```Bash
 dotnet ef migrations add CreateIdentitySchema
 dotnet ef database update
 ```
+![image](https://github.com/user-attachments/assets/5b7cf3ce-649f-4a83-aff5-4ca84abd19b5)
 
 5. En el Visual Studio Code, en la carpeta src/Areas/Domain, crear el archivo UrlMapping.cs con el siguiente contenido:
 ```CSharp
@@ -366,6 +380,7 @@ public class UrlMapping
     public string ShortenedUrl { get; set; } = string.Empty;
 }
 ```
+![image](https://github.com/user-attachments/assets/e1c9add9-cd94-47e6-90f8-039b4dcd0089)
   
 6. En el Visual Studio Code, en la carpeta src/Areas/Domain, crear el archivo ShortenContext.cs con el siguiente contenido:
 ```CSharp
@@ -396,6 +411,7 @@ public class ShortenContext : DbContext
     public DbSet<UrlMapping> UrlMappings { get; set; }
 }
 ```
+![image](https://github.com/user-attachments/assets/7a607d9f-b526-473d-bb8b-4a041e948600)
 
 7. En el Visual Studio Code, en la carpeta src, modificar el archivo Program.cs con el siguiente contenido al inicio:
 ```CSharp
